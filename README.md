@@ -24,7 +24,10 @@ docker build -t smplx/smplify-x:v1 .
 ```Shell
 docker run -it --runtime=nvidia -P smplx/smplify-x:v1
 ```
-之后再进入容器，此时在容器中下载smplify-x的工程即可直接运行
+之后再进入容器，此时在容器中下载smplify-x的工程即可直接运行。这里推荐playing_smplifyx这个项目，相对来说比较简洁，但是还有一点小问题，我将来会依据这个工程做一些改动。
+```Shell
+git clone https://github.com/ortegatron/playing_smplifyx
+```
 
 ## 关于SSH
 为了方便调试，dockerfile中加入了安装ssh并设置远程登陆的内容，适用于使用服务器的小伙伴，如果不需要可以删除
