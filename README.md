@@ -11,8 +11,8 @@ smplify-x是德国马普所基于SMPLx开发的人体3d mesh预测网络，因�
 ## 运行
 首先下载dockerfile以及所有需要的安装包并进入项目文件夹
 ```Shell
-git clone https://github.com/wells-wei-wei/smplify-x_in_dockerne 
-cd smplify-x_in_dockerne
+git clone https://github.com/wells-wei-wei/smplify-x_in_docker
+cd smplify-x_in_docker
 ```
 在文件夹中建立镜像
 ```Shell
