@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM nvidia/cudagl:10.0-devel-ubuntu18.04
 
 #更改apt源
 COPY sources.list etc/apt
@@ -7,6 +7,8 @@ RUN apt-get update
 RUN apt-get install python3 -y && apt install python3-pip -y
 RUN apt-get install openssl -y && apt-get install libssl-dev -y
 RUN apt-get install git -y
+RUN apt-get install wget -y
+
 #安装cmake，也可以根据自己的情况选择其他合适的版本，不得低于3.14
 COPY cmake-3.17.1/. /root/cmake/
 RUN cd /root/cmake/ && ./bootstrap && make -j8 && make install && ln -s /usr/local/bin/cmake /usr/bin/cmake
@@ -19,9 +21,12 @@ RUN cd /root/boost/ && ./bootstrap.sh && ./b2 install
 COPY opencv-4.2.0/. /root/opencv/
 RUN cd /root/opencv/ && mkdir build && cd build && cmake .. && make -j20 && make install
 
+RUN cd /root/ && wget http://file.ppwwyyxx.com/nvidia/cudnn-10.0-linux-x64-v7.6.4.38.tgz && tar -xzf cudnn-10.0-linux-x64-v7.6.4.38.tgz -C /usr/local && ldconfig
+
 #安装openpose
 COPY openpose/. /root/openpose/
 RUN apt-get install libprotobuf-dev protobuf-compiler -y && apt-get install libgoogle-glog-dev -y && apt-get install libhdf5-dev -y && apt-get install libatlas-base-dev -y
+
 RUN cd /root/openpose/ && mkdir build && cd build && cmake -DBUILD_PYTHON=ON .. && make -j20 && cp -r python/openpose /usr/local/lib/python3.6/dist-packages/
 
 RUN apt-get install libsm6 libxrender1 libfontconfig1 libxext6 -y && apt-get install freeglut3-dev -y
@@ -31,7 +36,11 @@ COPY torch-mesh-isect/. /root/torch-mesh-isect/
 RUN pip3 install torch==1.1.0
 RUN cd /root/torch-mesh-isect/ && python3 setup.py install 
 
+COPY playing_smplifyx/. /home/playing_smplifyx/
+
 #安装ssh，可以进行远程调试
+RUN apt-get install xorg -y
+RUN apt-get install openbox -y
 RUN apt-get install -y openssh-server
 #RUN mkdir /var/run/sshd
 RUN echo 'root:wei' | chpasswd
