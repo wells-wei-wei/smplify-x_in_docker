@@ -8,6 +8,8 @@ RUN apt-get install python3 -y && apt install python3-pip -y
 RUN apt-get install openssl -y && apt-get install libssl-dev -y
 RUN apt-get install git -y
 RUN apt-get install wget -y
+RUN apt-get install mlocate -y && updatedb
+RUN apt-get install vim -y
 
 #安装cmake，也可以根据自己的情况选择其他合适的版本，不得低于3.14
 COPY cmake-3.17.1/. /root/cmake/
@@ -21,6 +23,7 @@ RUN cd /root/boost/ && ./bootstrap.sh && ./b2 install
 COPY opencv-4.2.0/. /root/opencv/
 RUN cd /root/opencv/ && mkdir build && cd build && cmake .. && make -j20 && make install
 
+# 安装cudnn10
 RUN cd /root/ && wget http://file.ppwwyyxx.com/nvidia/cudnn-10.0-linux-x64-v7.6.4.38.tgz && tar -xzf cudnn-10.0-linux-x64-v7.6.4.38.tgz -C /usr/local && ldconfig
 
 #安装openpose
@@ -37,6 +40,7 @@ RUN pip3 install torch==1.1.0
 RUN cd /root/torch-mesh-isect/ && python3 setup.py install 
 
 COPY playing_smplifyx/. /home/playing_smplifyx/
+RUN cd /home/playing_smplifyx/ && pip3 install -r requirements.txt && cd human_body_prior && pip3 install .
 
 #安装ssh，可以进行远程调试
 RUN apt-get install xorg -y

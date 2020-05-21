@@ -7,4 +7,3 @@ smplx
 pillow
 opencv-python
 tqdm
-human_body_prior
