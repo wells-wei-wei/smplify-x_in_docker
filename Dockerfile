@@ -45,6 +45,7 @@ RUN pip3 install git+https://github.com/nghorbani/configer
 RUN pip3 install git+https://github.com/nghorbani/human_body_prior
 
 #安装ssh，可以进行远程调试
+# RUN DEBIAN_FRONTEND=noninteractive apt-get install xorg -y - if you get select keyboard config - use this
 RUN apt-get install xorg -y
 RUN apt-get install openbox -y
 RUN apt-get install -y openssh-server
