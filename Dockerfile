@@ -40,7 +40,9 @@ RUN pip3 install torch==1.1.0
 RUN cd /root/torch-mesh-isect/ && python3 setup.py install 
 
 COPY playing_smplifyx/. /home/playing_smplifyx/
-RUN cd /home/playing_smplifyx/ && pip3 install -r requirements.txt && cd human_body_prior && pip3 install .
+RUN cd /home/playing_smplifyx/ && pip3 install -r requirements.txt 
+RUN pip3 install git+https://github.com/nghorbani/configer
+RUN pip3 install git+https://github.com/nghorbani/human_body_prior
 
 #安装ssh，可以进行远程调试
 RUN apt-get install xorg -y
